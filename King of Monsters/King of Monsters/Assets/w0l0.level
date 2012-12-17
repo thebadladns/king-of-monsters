@@ -1,0 +1,10 @@
+﻿<level name="Level0" layers="2">
+  <layers>
+    <layer id="0" file="0_0" />
+    <layer id="1" file="0_1" />
+  </layers>
+  <entries>
+    <entry id="0" layer="0" eid="5" />
+    <entry id="1" layer="1" eid="4" />
+  </entries>
+</level>
