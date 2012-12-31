@@ -107,14 +107,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Engine\Camera.cs" />
-    <Compile Include="Engine\GameInput.cs" />
-    <Compile Include="Engine\Graphics\Graphic.cs" />
-    <Compile Include="Engine\Graphics\Spritemap.cs" />
-    <Compile Include="Engine\Graphics\Stamp.cs" />
-    <Compile Include="Engine\Mask.cs" />
-    <Compile Include="Engine\SolidGrid.cs" />
-    <Compile Include="Engine\Graphics\Tilemap.cs" />
     <Compile Include="Game\Beast.cs" />
     <Compile Include="Game\Data\GameData.cs" />
     <Compile Include="Game\Door.cs" />
@@ -124,9 +116,6 @@
     <Compile Include="Game\LevelEntrance.cs" />
     <Compile Include="Game\World\GameWorld.cs" />
     <Compile Include="Game\LevelMap.cs" />
-    <Compile Include="Engine\GameEntity.cs" />
-    <Compile Include="Engine\GameState.cs" />
-    <Compile Include="Engine\Resolution.cs" />
     <Compile Include="Game\LevelParameters.cs" />
     <Compile Include="Game\OneWayPlatform.cs" />
     <Compile Include="Game\PickableBlock.cs" />
@@ -185,6 +174,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Banana Engine\Banana Engine.csproj">
+      <Project>{F89D573E-0E29-49D5-8C21-4EBAB827BB09}</Project>
+      <Name>Banana Engine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\King of MonstersContent\King of MonstersContent.contentproj">
       <Project>{7C89A954-02A9-40FA-BEAE-1F6E3CC13F46}</Project>
       <Name>King of MonstersContent %28Content%29</Name>

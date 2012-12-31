@@ -6,8 +6,8 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using kom.Engine;
-using kom.Engine.Graphics;
+using BananaEngine;
+using BananaEngine.Graphics;
 
 namespace kom.Game
 {

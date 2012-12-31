@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-using kom.Engine;
+using BananaEngine;
 using kom.Game;
 using kom.Game.Data;
 
@@ -21,36 +21,18 @@ namespace kom
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class KoM : Microsoft.Xna.Framework.Game
+    public class KoM : BananaGame
     {
-        // Debug variables
-        public static bool DEBUG = false;
-
-        // Rendering
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        public GraphicsDevice graphicsDevice { get { return GraphicsDevice; } }
-        protected uint horizontalZoom, verticalZoom;
-        public SpriteFont gameFont;
-
-        // Input
-        public static GameInput input = new GameInput();
-        
         // Data management
         public GameDataManager dataManager;
-        // Gameplay
-        protected GameState world;
-        protected GameState worldMap;
-        // Time flow
-        double millisecondsPerFrame = 17;
-        double timeSinceLastUpdate = 0;
 
-        public KoM()
+        // Gameplay
+        protected GameState worldMap;
+
+        public KoM() : base()
         {
             horizontalZoom = 3;
             verticalZoom = 3;
-
-            graphics = new GraphicsDeviceManager(this);
 
             Resolution.Init(ref graphics, 256, 240);
             Resolution.SetVirtualResolution(256, 240);
@@ -158,7 +140,7 @@ namespace kom
             }
 
             if (input.pressed(Buttons.Y))
-                DEBUG = !DEBUG;
+                BananaConfig.DEBUG = !BananaConfig.DEBUG;
             
             if (world != null)
                 world.update(gameTime);
@@ -177,7 +159,8 @@ namespace kom
             Matrix matrix = Resolution.getTransformationMatrix();
             
             // Render world
-            world.render(gameTime, spriteBatch, matrix);
+            if (world != null)
+                world.render(gameTime, spriteBatch, matrix);
 
             // Game level draw calls
             Vector2 pos = Vector2.Zero;
@@ -194,17 +177,6 @@ namespace kom
             base.Draw(gameTime);
         }
 
-        public void changeWorld(GameState newWorld)
-        {
-            if (world != null)
-                world.end();
-
-            world = newWorld;
-            world.game = this;
-
-            newWorld.init();   
-        }
-
         public void goToLevel(int world, int level, int entrance)
         {
             GameLevel l = new GameLevel(world, level);
@@ -215,35 +187,6 @@ namespace kom
         public void returnToWorld()
         {
             changeWorld(worldMap);
-        }
-
-        public int count = 0;
-        public void screenshot()
-        {
-            count += 1;
-            string counter = count.ToString();
-
-            int w = GraphicsDevice.PresentationParameters.BackBufferWidth;
-            int h = GraphicsDevice.PresentationParameters.BackBufferHeight;
-
-            //force a frame to be drawn (otherwise back buffer is empty) 
-            Draw(new GameTime());
-
-            //pull the picture from the buffer 
-            int[] backBuffer = new int[w * h];
-            GraphicsDevice.GetBackBufferData(backBuffer);
-
-            //copy into a texture 
-            Texture2D texture = new Texture2D(GraphicsDevice, w, h, false, GraphicsDevice.PresentationParameters.BackBufferFormat);
-            texture.SetData(backBuffer);
-
-            //save to disk 
-            Stream stream = File.OpenWrite(counter + ".png");
-
-            texture.SaveAsPng(stream, w, h);
-            stream.Dispose();
-
-            texture.Dispose();
         }
     }
 }

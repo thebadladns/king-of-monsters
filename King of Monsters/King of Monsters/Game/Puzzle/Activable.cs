@@ -6,7 +6,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using kom.Engine;
+using BananaEngine;
 
 namespace kom.Game.Puzzle
 {

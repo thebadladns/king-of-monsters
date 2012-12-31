@@ -6,7 +6,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using kom.Engine;
+using BananaEngine;
 
 using kom.Game.Data;
 
@@ -73,8 +73,8 @@ namespace kom.Game
             camera = new Camera2d(game.graphicsDevice);
             camera.Pos = new Vector2(128, 120);
 
-            game.dataManager.state.currentWorld = 0;
-            game.dataManager.state.currentNode = currentNode.id;
+            (game as KoM).dataManager.state.currentWorld = 0;
+            (game as KoM).dataManager.state.currentNode = currentNode.id;
         }
 
         public override void update(GameTime dt)
@@ -90,11 +90,11 @@ namespace kom.Game
             {
                 currentNode = nextNode;
                 nextNodePosition = 0;
-                game.dataManager.state.currentNode = currentNode.id;
+                (game as KoM).dataManager.state.currentNode = currentNode.id;
             }
             else if (KoM.input.pressed(Microsoft.Xna.Framework.Input.Buttons.Start))
             {
-                game.goToLevel(0, currentNode.level, currentNode.entrance);
+                (game as KoM).goToLevel(0, currentNode.level, currentNode.entrance);
             }
 
             if (KoM.input.pressed(Microsoft.Xna.Framework.Input.Keys.S))

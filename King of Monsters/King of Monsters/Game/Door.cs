@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using kom.Engine;
-using kom.Engine.Graphics;
+using BananaEngine;
+using BananaEngine.Graphics;
 
 namespace kom.Game
 {

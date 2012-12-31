@@ -10,8 +10,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-using kom.Engine;
-using kom.Engine.Graphics;
+using BananaEngine;
+using BananaEngine.Graphics;
 
 using kom.Game.Puzzle;
 
@@ -244,7 +244,7 @@ namespace kom.Game
                 transitionFader.update();
 
             if (KoM.input.pressed(Buttons.Back))
-                game.returnToWorld();
+                (game as KoM).returnToWorld();
 
             if (KoM.input.pressed(Keys.F11))
                 game.screenshot();
@@ -447,12 +447,12 @@ namespace kom.Game
     public class Fader
     {
         Texture2D tex;
-        KoM game;
+        BananaGame game;
         Color color;
         float alpha;
         float delta;
 
-        public Fader(KoM game, Color color, float alpha = 1.0f, float delta = 0.0f)
+        public Fader(BananaGame game, Color color, float alpha = 1.0f, float delta = 0.0f)
         {
             this.game = game;
 
