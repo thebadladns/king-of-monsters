@@ -5,12 +5,12 @@ using System.Text;
 
 using Microsoft.Xna.Framework;
 
-using BananaEngine;
-using BananaEngine.Graphics;
+using bEngine;
+using bEngine.Graphics;
 
 namespace kom.Game
 {
-    public class OneWayPlatform : GameEntity
+    public class OneWayPlatform : bEntity
     {
         public OneWayPlatform(int x, int y) : base(x, y)
         {

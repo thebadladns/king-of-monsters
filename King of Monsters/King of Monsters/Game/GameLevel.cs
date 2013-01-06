@@ -10,29 +10,29 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-using BananaEngine;
-using BananaEngine.Graphics;
+using bEngine;
+using bEngine.Graphics;
 
 using kom.Game.Puzzle;
 
 namespace kom.Game
 {
-    class GameLevel : GameState, IPausable
+    class GameLevel : bGameState, IPausable
     {
         LevelParameters parameters;
         public int currentEntrance;
 
         Color bgColor;
 
-        GameEntity player;
+        bEntity player;
         LevelMap map;
 
-        public Camera2d camera;
+        public bCamera2d camera;
 
         public int currentLayer;
         List<LevelMap> layerMap;
-        List<Dictionary<String, List<GameEntity>>> layers;
-        Dictionary<String, List<GameEntity>> commonEntities;
+        List<Dictionary<String, List<bEntity>>> layers;
+        Dictionary<String, List<bEntity>> commonEntities;
 
         bool paused;
 
@@ -40,7 +40,7 @@ namespace kom.Game
         int toLayer;
         Fader transitionFader;
 
-        Stamp sprPoint;
+        bStamp sprPoint;
 
         public enum State { Init, Gameplay, Pause, Transition };
         public State state;
@@ -62,26 +62,26 @@ namespace kom.Game
 
             // Init entities containers
             // Each layer contains its own dictionary of entities by type
-            layers = new List<Dictionary<String, List<GameEntity>>>();
+            layers = new List<Dictionary<String, List<bEntity>>>();
             // Each layer has its own map
             layerMap = new List<LevelMap>();
             // Common entitites hold inter-layer entities
-            commonEntities = new Dictionary<string, List<GameEntity>>();
+            commonEntities = new Dictionary<string, List<bEntity>>();
             // Player related entities are inter-layered
-            commonEntities.Add("player", new List<GameEntity>());
+            commonEntities.Add("player", new List<bEntity>());
 
             // Fetch from other source
             int LAYERS = parameters.layers;
             for (int i = 0; i < LAYERS; i++)
             {
-                Dictionary<String, List<GameEntity>> d = new Dictionary<String, List<GameEntity>>();
-                d.Add("enemy", new List<GameEntity>());
-                d.Add("solid", new List<GameEntity>());
-                d.Add("stairs", new List<GameEntity>());
-                d.Add("weapon", new List<GameEntity>());
-                d.Add("onewaysolid", new List<GameEntity>());
-                d.Add("misc", new List<GameEntity>());
-                d.Add("entries", new List<GameEntity>());
+                Dictionary<String, List<bEntity>> d = new Dictionary<String, List<bEntity>>();
+                d.Add("enemy", new List<bEntity>());
+                d.Add("solid", new List<bEntity>());
+                d.Add("stairs", new List<bEntity>());
+                d.Add("weapon", new List<bEntity>());
+                d.Add("onewaysolid", new List<bEntity>());
+                d.Add("misc", new List<bEntity>());
+                d.Add("entries", new List<bEntity>());
                 layers.Add(d);
             }
 
@@ -106,12 +106,12 @@ namespace kom.Game
             // find current entrance and create player
             bool done = false;
             int layer = -1;
-            foreach (Dictionary<string, List<GameEntity>> es in layers)
+            foreach (Dictionary<string, List<bEntity>> es in layers)
             {
                 layer += 1;
                 foreach (String k in es.Keys)
                 {
-                    foreach (GameEntity e in es[k])
+                    foreach (bEntity e in es[k])
                     {
                         if (e is LevelEntrance)
                         {
@@ -131,10 +131,10 @@ namespace kom.Game
                     break;
             }
 
-            camera = new Camera2d(game.graphicsDevice);
+            camera = new bCamera2d(game.GraphicsDevice);
             camera.bounds = new Rectangle(map.x, map.y, map.tilemap.width, map.tilemap.height);
 
-            sprPoint = new Stamp(game.Content.Load<Texture2D>("rect"));
+            sprPoint = new bStamp(game.Content.Load<Texture2D>("rect"));
 
             state = State.Gameplay;
         }
@@ -155,24 +155,24 @@ namespace kom.Game
                 switchToLayer(1);
 
             /* Update */
-            foreach (GameEntity ge in entities["solid"])
+            foreach (bEntity ge in entities["solid"])
                 ge.update();
-            foreach (GameEntity e in entities["onewaysolid"])
+            foreach (bEntity e in entities["onewaysolid"])
                 e.update();
-            foreach (GameEntity ge in entities["enemy"])
+            foreach (bEntity ge in entities["enemy"])
                 ge.update();
-            foreach (GameEntity p in entities["player"])
+            foreach (bEntity p in entities["player"])
                 p.update();
-            foreach (GameEntity w in entities["weapon"])
+            foreach (bEntity w in entities["weapon"])
                 w.update();
-            foreach (GameEntity m in entities["misc"])
+            foreach (bEntity m in entities["misc"])
                 m.update();
-            foreach (GameEntity m in entities["entries"])
+            foreach (bEntity m in entities["entries"])
                 m.update();
 
             /* Collisions */
             // Player vs solids
-            /*foreach (GameEntity gs in entities["solid"])
+            /*foreach (bEntity gs in entities["solid"])
                 if (player.collides(gs))
                 {
                     player.onCollision("solid", gs);
@@ -182,7 +182,7 @@ namespace kom.Game
             //  vs player
             //  vs solid
             //  vs enemy
-            foreach (GameEntity ge in entities["enemy"])
+            foreach (bEntity ge in entities["enemy"])
             {
                 if (player.collides(ge))
                 {
@@ -190,7 +190,7 @@ namespace kom.Game
                     ge.onCollision("player", player);
                 }
 
-                foreach (GameEntity gs in entities["solid"])
+                foreach (bEntity gs in entities["solid"])
                 {
                     if (ge.collides(gs))
                     {
@@ -199,7 +199,7 @@ namespace kom.Game
                     }
                 }
 
-                foreach (GameEntity ee in entities["enemy"])
+                foreach (bEntity ee in entities["enemy"])
                 {
                     if (ee != ge && ge.collides(ee))
                     {
@@ -209,16 +209,16 @@ namespace kom.Game
                 }
             }
 
-            foreach (GameEntity w in entities["weapon"])
+            foreach (bEntity w in entities["weapon"])
             {
-                foreach (GameEntity s in entities["solid"])
+                foreach (bEntity s in entities["solid"])
                     if (w.collides(s))
                     {
                         w.onCollision("solid", s);
                         s.onCollision("weapon", w);
                     }
 
-                foreach (GameEntity e in entities["enemy"])
+                foreach (bEntity e in entities["enemy"])
                     if (w.collides(e))
                     {
                         e.onCollision("weapon", w);
@@ -227,13 +227,13 @@ namespace kom.Game
             }
 
             /* Remove flagged entities */
-            foreach (GameEntity e in deathRow)
+            foreach (bEntity e in deathRow)
             {
                 actuallyRemove(e);
             }
             deathRow.Clear();
 
-            foreach (Pair<GameEntity, String> e in birthRow)
+            foreach (Pair<bEntity, String> e in birthRow)
                 _add(e.first, e.second);
             birthRow.Clear();
 
@@ -275,15 +275,15 @@ namespace kom.Game
 
             game.GraphicsDevice.Clear(bgColor);
 
-            foreach (GameEntity e in entities["solid"])
+            foreach (bEntity e in entities["solid"])
                 e.render(dt, sb);
-            foreach (GameEntity e in entities["onewaysolid"])
+            foreach (bEntity e in entities["onewaysolid"])
                 e.render(dt, sb);
-            foreach (GameEntity m in entities["misc"])
+            foreach (bEntity m in entities["misc"])
                 m.render(dt, sb);
-            foreach (GameEntity e in entities["enemy"])
+            foreach (bEntity e in entities["enemy"])
                 e.render(dt, sb);
-            foreach (GameEntity e in entities["entries"])
+            foreach (bEntity e in entities["entries"])
                 e.render(dt, sb);
 
             if (state == State.Transition)
@@ -291,7 +291,7 @@ namespace kom.Game
 
             player.render(dt, sb);
 
-            foreach (GameEntity w in entities["weapon"])
+            foreach (bEntity w in entities["weapon"])
                 w.render(dt, sb);
 
             Rectangle viewRect = camera.viewRectangle;
@@ -301,7 +301,7 @@ namespace kom.Game
             sb.DrawString(game.gameFont, "" + instanceNumber(typeof(PlayerWeapon)), new Vector2(viewRect.X + 10, viewRect.Y + 10), Color.NavajoWhite);
         }
 
-        protected override bool _add(GameEntity e, string category)
+        protected override bool _add(bEntity e, string category)
         {
             switch (category)
             {
@@ -328,9 +328,9 @@ namespace kom.Game
             return base._add(e, category);
         }
 
-        public void handleEntities(List<GameEntity> list)
+        public void handleEntities(List<bEntity> list)
         {
-            foreach (GameEntity e in list)
+            foreach (bEntity e in list)
             {
                 if (e == null)
                     continue;
@@ -393,7 +393,7 @@ namespace kom.Game
 
             // Notify entities about switch
             foreach (String key in entities.Keys)
-                foreach (GameEntity e in entities[key])
+                foreach (bEntity e in entities[key])
                     if (e is IListener)
                         (e as IListener).onEvent("layerChange");
 
@@ -438,7 +438,7 @@ namespace kom.Game
             }
         }
 
-        override public bool isInstanceInView(GameEntity e)
+        override public bool isInstanceInView(bEntity e)
         {
             return camera.viewRectangle.Contains(e.mask.rect);
         }
@@ -447,12 +447,12 @@ namespace kom.Game
     public class Fader
     {
         Texture2D tex;
-        BananaGame game;
+        bGame game;
         Color color;
         float alpha;
         float delta;
 
-        public Fader(BananaGame game, Color color, float alpha = 1.0f, float delta = 0.0f)
+        public Fader(bGame game, Color color, float alpha = 1.0f, float delta = 0.0f)
         {
             this.game = game;
 
@@ -478,7 +478,7 @@ namespace kom.Game
         public void render(SpriteBatch sb)
         {
             System.Diagnostics.Debug.WriteLine(alpha);
-            sb.Draw(tex, new Rectangle(0, 0, game.graphicsDevice.DisplayMode.Width, game.graphicsDevice.DisplayMode.Height), color);
+            sb.Draw(tex, new Rectangle(0, 0, game.GraphicsDevice.DisplayMode.Width, game.GraphicsDevice.DisplayMode.Height), color);
         }
     }
 

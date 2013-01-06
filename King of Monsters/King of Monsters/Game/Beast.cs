@@ -6,14 +6,14 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using BananaEngine;
-using BananaEngine.Graphics;
+using bEngine;
+using bEngine.Graphics;
 
 namespace kom.Game
 {
     class Beast : PickableBlock, IDynamicSolid
     {
-        public Spritemap _graphic;
+        public bSpritemap _graphic;
         public bool moved;
         public Vector2 movement;
 
@@ -24,7 +24,7 @@ namespace kom.Game
 
         public bool isolated;
 
-        public GameEntity carrierEntity;
+        public bEntity carrierEntity;
 
         public Beast(int x, int y) : base(x, y)
         {
@@ -35,11 +35,11 @@ namespace kom.Game
             base.init();
 
             mask.w = 16; mask.h = 15; mask.offsety = 1;
-            _graphic = new Spritemap(game.Content.Load<Texture2D>("beast"), 16, 16);
+            _graphic = new bSpritemap(game.Content.Load<Texture2D>("beast"), 16, 16);
             int[] fs = {0, 1, 2, 3};
-            _graphic.add(new Anim("walk", fs, 0.12f));
+            _graphic.add(new bAnim("walk", fs, 0.12f));
             int[] fss = { 4, 5 };
-            _graphic.add(new Anim("carried", fss, 0.05f));
+            _graphic.add(new bAnim("carried", fss, 0.05f));
 
             _graphic.play("walk");
 
@@ -54,7 +54,7 @@ namespace kom.Game
             attributes.Add("dynamic-solid");
         }
 
-        override public void onInitCarry(GameEntity other)
+        override public void onInitCarry(bEntity other)
         {
             _graphic.play("carried");
             collidable = false;
@@ -129,7 +129,7 @@ namespace kom.Game
                 else
                 {
                     
-                    GameEntity dynamicSolid = instancePlace(x, y + 1, "onewaysolid", "dynamic-solid");
+                    bEntity dynamicSolid = instancePlace(x, y + 1, "onewaysolid", "dynamic-solid");
                     bool carried = (dynamicSolid != null && onewaysolidCondition(this, dynamicSolid));
 
                     if (carried)
@@ -211,7 +211,7 @@ namespace kom.Game
 
         public void handlePusherMovement()
         {
-            IPusher pusher = (instancePlace(x, y, "solid", null, (GameEntity me, GameEntity other) => other is IPusher) as IPusher);
+            IPusher pusher = (instancePlace(x, y, "solid", null, (bEntity me, bEntity other) => other is IPusher) as IPusher);
             if (pusher != null)
             {
                 moveTo += pusher.getMovementDelta();

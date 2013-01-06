@@ -7,14 +7,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using BananaEngine;
-using BananaEngine.Graphics;
+using bEngine;
+using bEngine.Graphics;
 
 namespace kom.Game
 {
-    class Player : GameEntity, ICarrier, IPausable
+    class Player : bEntity, ICarrier, IPausable
     {
-        public Spritemap graphic;
+        public bSpritemap graphic;
         public int hspeed;
         public float vspeed, gravity;
 
@@ -40,25 +40,25 @@ namespace kom.Game
         {
             base.init();
 
-            mask = new Mask(0, 0, 14, 15, 1, 1);
+            mask = new bMask(0, 0, 14, 15, 1, 1);
             mask.game = game;
             attributes.Add("player");
             attributes.Add("moveable");
 
-            graphic = new Spritemap(game.Content.Load<Texture2D>("krop-gplay"), 16, 16);
+            graphic = new bSpritemap(game.Content.Load<Texture2D>("krop-gplay"), 16, 16);
             int[] fs = {0, 1};
-            graphic.add(new Anim("idle", fs, 0.1f));
-            graphic.add(new Anim("walk", fs, 10f));
+            graphic.add(new bAnim("idle", fs, 0.1f));
+            graphic.add(new bAnim("walk", fs, 10f));
             int[] fss = {9};
-            graphic.add(new Anim("jump", fss, 0.0f));
+            graphic.add(new bAnim("jump", fss, 0.0f));
             int[] fsss = {10, 11};
-            graphic.add(new Anim("ladder", fsss, 0.1f));
+            graphic.add(new bAnim("ladder", fsss, 0.1f));
             int[] fssss = {2, 3};
-            graphic.add(new Anim("idle-carry", fssss, 0.1f));
+            graphic.add(new bAnim("idle-carry", fssss, 0.1f));
             int[] fsssss = { 5 };
-            graphic.add(new Anim("jump-carry", fsssss, 0.0f));
+            graphic.add(new bAnim("jump-carry", fsssss, 0.0f));
             int[] ff = { 16 };
-            graphic.add(new Anim("throw", ff, 0.0f));
+            graphic.add(new bAnim("throw", ff, 0.0f));
 
             graphic.play("idle");
 
@@ -175,7 +175,7 @@ namespace kom.Game
                                     // Grab pickable entity
                                     if (input.down())
                                     {
-                                        GameEntity entity = instancePlace(x, y + 1, "solid");
+                                        bEntity entity = instancePlace(x, y + 1, "solid");
                                         if (entity == null || !(entity is PickableBlock))
                                             entity = instancePlace(x, y + 1, "onewaysolid", null, onewaysolidCondition);
                                         if (entity is PickableBlock/* && onewaysolidCondition(this, entity)*/)
@@ -207,7 +207,7 @@ namespace kom.Game
                             else if (placeMeeting(x, y + 1, "stairs") && input.down())
                             {
                                 moveTo.Y += 2;
-                                GameEntity g = (GameEntity) instancePlace(moveTo, "stairs");
+                                bEntity g = (bEntity) instancePlace(moveTo, "stairs");
                                 if (g != null)
                                     moveTo.X = g.x;
                                 toLadder = true;
@@ -412,7 +412,7 @@ namespace kom.Game
 
         protected void handleDynamicSolidMovement()
         {
-            GameEntity dynamicSolid = instancePlace(x, y + 1, "onewaysolid", "dynamic-solid", onewaysolidCondition);
+            bEntity dynamicSolid = instancePlace(x, y + 1, "onewaysolid", "dynamic-solid", onewaysolidCondition);
             if (dynamicSolid != null/* && onewaysolidCondition(this, dynamicSolid)*/)
                 if (dynamicSolid is IDynamicSolid)
                 {
@@ -423,7 +423,7 @@ namespace kom.Game
                 }
         }
 
-        public bool onewaysolidCondition(GameEntity me, GameEntity other)
+        public bool onewaysolidCondition(bEntity me, bEntity other)
         {
             if (me is Player)
             {
@@ -434,7 +434,7 @@ namespace kom.Game
                 return true;
         }
 
-        public bool pusherCondition(GameEntity me, GameEntity other)
+        public bool pusherCondition(bEntity me, bEntity other)
         {
             return (other is IPusher);
         }
@@ -454,7 +454,7 @@ namespace kom.Game
             }
         }
 
-        public override void onCollision(string type, GameEntity other)
+        public override void onCollision(string type, bEntity other)
         {
             if (type == "enemy")
                 color = Color.Red;

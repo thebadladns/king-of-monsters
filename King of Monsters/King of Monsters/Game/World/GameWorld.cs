@@ -6,20 +6,20 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using BananaEngine;
+using bEngine;
 
 using kom.Game.Data;
 
 namespace kom.Game
 {
-    class GameWorld : GameState
+    class GameWorld : bGameState
     {
         WorldParameters parameters;
         
         Color bgColor;
         WorldMap map;
 
-        Camera2d camera;
+        bCamera2d camera;
 
         LevelNode currentNode, nextNode;
         int nextNodePosition;
@@ -34,7 +34,7 @@ namespace kom.Game
             parameters = new WorldParameters(0);
         }
 
-        protected override bool _add(GameEntity e, string category)
+        protected override bool _add(bEntity e, string category)
         {
             entities[category].Add(e);
 
@@ -46,8 +46,8 @@ namespace kom.Game
             base.init();
 
             entities.Clear();
-            entities.Add("solid", new List<GameEntity>());
-            entities.Add("nodes", new List<GameEntity>());
+            entities.Add("solid", new List<bEntity>());
+            entities.Add("nodes", new List<bEntity>());
 
             map = new WorldMap(parameters.mapfile);
             _add(map, "solid");
@@ -70,7 +70,7 @@ namespace kom.Game
             _add(playerMaker, "nodes");
             playerMaker.placeAt(currentNode);
 
-            camera = new Camera2d(game.graphicsDevice);
+            camera = new bCamera2d(game.GraphicsDevice);
             camera.Pos = new Vector2(128, 120);
 
             (game as KoM).dataManager.state.currentWorld = 0;
@@ -100,9 +100,9 @@ namespace kom.Game
             if (KoM.input.pressed(Microsoft.Xna.Framework.Input.Keys.S))
                 data.saveGame();
 
-            foreach (GameEntity ge in entities["solid"])
+            foreach (bEntity ge in entities["solid"])
                 ge.update();
-            foreach (GameEntity ge in entities["nodes"])
+            foreach (bEntity ge in entities["nodes"])
                 ge.update();
         }
 
@@ -126,9 +126,9 @@ namespace kom.Game
             if (nextNode != null)
                 nextNode.graphic.color = Color.GreenYellow;
 
-            foreach (GameEntity ge in entities["solid"])
+            foreach (bEntity ge in entities["solid"])
                 ge.render(dt, sb);
-            foreach (GameEntity ge in entities["nodes"])
+            foreach (bEntity ge in entities["nodes"])
                 ge.render(dt, sb);
 
             currentNode.graphic.color = Color.White;

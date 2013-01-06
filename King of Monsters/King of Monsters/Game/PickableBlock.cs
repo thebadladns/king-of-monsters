@@ -6,14 +6,14 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using BananaEngine;
-using BananaEngine.Graphics;
+using bEngine;
+using bEngine.Graphics;
 
 namespace kom.Game
 {
-    class PickableBlock : GameEntity, IPusher, IPausable
+    class PickableBlock : bEntity, IPusher, IPausable
     {
-        public Stamp graphic;
+        public bStamp graphic;
         public int speed;
         public float vspeed;
         public float gravity;
@@ -32,7 +32,7 @@ namespace kom.Game
 
             mask.w = 16; mask.h = 16;
 
-            graphic = new Stamp(game.Content.Load<Texture2D>("block"));
+            graphic = new bStamp(game.Content.Load<Texture2D>("block"));
 
             vspeed = 0;
             speed = 0;
@@ -41,7 +41,7 @@ namespace kom.Game
             statusString = "";
         }
 
-        virtual public void onInitCarry(GameEntity other)
+        virtual public void onInitCarry(bEntity other)
         {
             collidable = false;
         }
@@ -184,7 +184,7 @@ namespace kom.Game
 
         protected bool handleDynamicSolidMovement()
         {
-            GameEntity dynamicSolid = instancePlace(x, y + 1, "onewaysolid", "dynamic-solid");
+            bEntity dynamicSolid = instancePlace(x, y + 1, "onewaysolid", "dynamic-solid");
             if (dynamicSolid != null && onewaysolidCondition(this, dynamicSolid))
             {
                 if (dynamicSolid is IDynamicSolid)
@@ -202,7 +202,7 @@ namespace kom.Game
             return false;
         }
 
-        public bool onewaysolidCondition(GameEntity me, GameEntity other)
+        public bool onewaysolidCondition(bEntity me, bEntity other)
         {
             if (me is PickableBlock)
             {

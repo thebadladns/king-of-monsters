@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-using BananaEngine;
+using bEngine;
 using kom.Game;
 using kom.Game.Data;
 
@@ -21,13 +21,13 @@ namespace kom
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class KoM : BananaGame
+    public class KoM : bGame
     {
         // Data management
         public GameDataManager dataManager;
 
         // Gameplay
-        protected GameState worldMap;
+        protected bGameState worldMap;
 
         public KoM() : base()
         {
@@ -140,7 +140,7 @@ namespace kom
             }
 
             if (input.pressed(Buttons.Y))
-                BananaConfig.DEBUG = !BananaConfig.DEBUG;
+                bConfig.DEBUG = !bConfig.DEBUG;
             
             if (world != null)
                 world.update(gameTime);
@@ -174,7 +174,8 @@ namespace kom
             // Finish drawing
             spriteBatch.End();
 
-            base.Draw(gameTime);
+            // Not needed to call parent
+            // base.Draw(gameTime);
         }
 
         public void goToLevel(int world, int level, int entrance)

@@ -6,18 +6,18 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using BananaEngine;
-using BananaEngine.Graphics;
+using bEngine;
+using bEngine.Graphics;
 
 namespace kom.Game
 {
-    public class PlayerWeapon : GameEntity, IPausable, IListener
+    public class PlayerWeapon : bEntity, IPausable, IListener
     {
         public float hspeed;
         public float vspeed;
         public float gravity;
 
-        public Spritemap graphic;
+        public bSpritemap graphic;
 
         public PlayerWeapon(int x, int y) : base(x, y)
         {
@@ -29,9 +29,9 @@ namespace kom.Game
         {
             base.init();
             gravity = 0.2f;
-            graphic = new Spritemap(game.Content.Load<Texture2D>("weapons"), 8, 8);
+            graphic = new bSpritemap(game.Content.Load<Texture2D>("weapons"), 8, 8);
             int[] f = {0, 1};
-            graphic.add(new Anim("bone", f, 0.1f));
+            graphic.add(new bAnim("bone", f, 0.1f));
             graphic.play("bone");
             mask.w = 8;
             mask.h = 8;
@@ -60,7 +60,7 @@ namespace kom.Game
             base.update();
         }
 
-        public override void onCollision(string type, GameEntity other)
+        public override void onCollision(string type, bEntity other)
         {
             if (type == "solid" || type == "enemy")
                 world.remove(this);

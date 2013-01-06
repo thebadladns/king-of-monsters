@@ -7,22 +7,22 @@ using System.Xml;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using BananaEngine;
-using BananaEngine.Graphics;
+using bEngine;
+using bEngine.Graphics;
 
 using kom.Game.Puzzle;
 
 namespace kom.Game
 {
-    class LevelMap : GameEntity
+    class LevelMap : bEntity
     {
         public String mapName;
-        public Tilemap tilemap;
-        public List<GameEntity> entities;
+        public bTilemap tilemap;
+        public List<bEntity> entities;
 
         public LevelMap(String fname) : base(0, 0)
         {
-            entities = new List<GameEntity>();
+            entities = new List<bEntity>();
 
             mapName = fname;
         }
@@ -49,7 +49,7 @@ namespace kom.Game
                     {
                         if (parseStack.Count > 0 && parseStack.Peek() == "Entities")
                         {
-                            GameEntity e = parseEntity(reader);
+                            bEntity e = parseEntity(reader);
                             if (e != null)
                                 entities.Add(e);
                         }
@@ -99,17 +99,17 @@ namespace kom.Game
                 }
             }
 
-            tilemap = new Tilemap(w, h, 16, 16, game.Content.Load<Texture2D>("tilemap0"));
+            tilemap = new bTilemap(w, h, 16, 16, game.Content.Load<Texture2D>("tilemap0"));
             tilemap.parseTiles(tiles);
 
-            mask = new SolidGrid(w / 16, h / 16, 16, 16);
+            mask = new bSolidGrid(w / 16, h / 16, 16, 16);
             mask.game = game;
-            (mask as SolidGrid).parseSolids(solids);
+            (mask as bSolidGrid).parseSolids(solids);
         }
 
-        public GameEntity parseEntity(XmlReader element)
+        public bEntity parseEntity(XmlReader element)
         {
-            GameEntity ge = null;
+            bEntity ge = null;
 
             // Fetch common attributes
             int id, x, y;

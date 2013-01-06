@@ -7,15 +7,15 @@ using System.Xml;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using BananaEngine;
-using BananaEngine.Graphics;
+using bEngine;
+using bEngine.Graphics;
 
 namespace kom.Game
 {
-    class WorldMap : GameEntity
+    class WorldMap : bEntity
     {
         public String mapName;
-        public Tilemap tilemap;
+        public bTilemap tilemap;
         public List<LevelNode> nodes;
 
         public WorldMap(String fname)
@@ -88,7 +88,7 @@ namespace kom.Game
                 }
             }
 
-            tilemap = new Tilemap(w, h, 8, 8, game.Content.Load<Texture2D>(tileset));
+            tilemap = new bTilemap(w, h, 8, 8, game.Content.Load<Texture2D>(tileset));
             tilemap.parseTiles(tiles);
         }
 

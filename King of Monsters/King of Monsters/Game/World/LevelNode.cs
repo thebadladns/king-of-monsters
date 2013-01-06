@@ -6,19 +6,19 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using BananaEngine;
-using BananaEngine.Graphics;
+using bEngine;
+using bEngine.Graphics;
 
 namespace kom.Game
 {
-    public class LevelNode : GameEntity
+    public class LevelNode : bEntity
     {
         public String linksStr, levelStr;
         public List<LevelNode> links;
         public int level;
         public int entrance;
 
-        public Stamp graphic;
+        public bStamp graphic;
 
         public LevelNode(int x, int y, String linksString, String levelString)
             : base(x, y)
@@ -35,7 +35,7 @@ namespace kom.Game
         {
             base.init();
 
-            graphic = new Stamp(game.Content.Load<Texture2D>("node"));
+            graphic = new bStamp(game.Content.Load<Texture2D>("node"));
         }
 
         public override void render(GameTime dt, SpriteBatch sb)
@@ -69,9 +69,9 @@ namespace kom.Game
         }
     }
 
-    public class PlayerLocationMarker : GameEntity
+    public class PlayerLocationMarker : bEntity
     {
-        Spritemap graphic;
+        bSpritemap graphic;
 
         public PlayerLocationMarker(int x, int y)
             : base(x, y)
@@ -82,9 +82,9 @@ namespace kom.Game
         {
             base.init();
 
-            graphic = new Spritemap(game.Content.Load<Texture2D>("worldchars"), 8, 8);
+            graphic = new bSpritemap(game.Content.Load<Texture2D>("worldchars"), 8, 8);
             int[] f = {0, 1};
-            graphic.add(new Anim("walk", f, 0.05f));
+            graphic.add(new bAnim("walk", f, 0.05f));
             graphic.play("walk");
         }
 

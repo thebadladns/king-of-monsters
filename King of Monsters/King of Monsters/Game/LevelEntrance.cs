@@ -5,11 +5,11 @@ using System.Text;
 
 using Microsoft.Xna.Framework;
 
-using BananaEngine;
+using bEngine;
 
 namespace kom.Game
 {
-    class LevelEntrance : GameEntity
+    class LevelEntrance : bEntity
     {
         public int entranceId;
 

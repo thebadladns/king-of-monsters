@@ -6,14 +6,14 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using BananaEngine;
-using BananaEngine.Graphics;
+using bEngine;
+using bEngine.Graphics;
 
 namespace kom.Game
 {
-    class Enemy : GameEntity
+    class Enemy : bEntity
     {
-        Stamp graphic;
+        bStamp graphic;
 
         public Enemy(int x, int y) : base(x, y)
         {
@@ -22,10 +22,10 @@ namespace kom.Game
         override public void init()
         {
             base.init();
-            graphic = new Stamp(game.Content.Load<Texture2D>("monster"));
+            graphic = new bStamp(game.Content.Load<Texture2D>("monster"));
 
             attributes.Add("enemy");
-            mask = new Mask(x, y, 16, 24, 0, 2);
+            mask = new bMask(x, y, 16, 24, 0, 2);
             mask.game = game;
         }
 
@@ -35,7 +35,7 @@ namespace kom.Game
             base.update();
         }
 
-        override public void onCollision(string type, GameEntity other)
+        override public void onCollision(string type, bEntity other)
         {
             if (type == "weapon")
             {

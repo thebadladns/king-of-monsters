@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using BananaEngine;
+using bEngine;
 
 namespace kom.Game
 {
-    public class Stairs : GameEntity
+    public class Stairs : bEntity
     {
         int w, h;
         public Stairs(int x, int y, int w, int h) : base(x, y)

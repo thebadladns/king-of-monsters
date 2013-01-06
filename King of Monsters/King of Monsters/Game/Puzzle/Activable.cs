@@ -6,21 +6,21 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using BananaEngine;
+using bEngine;
 
 namespace kom.Game.Puzzle
 {
     public interface IActivable
     {
         bool isActive();
-        void activate(GameEntity by);
-        void deactivate(GameEntity by);
-        void change(GameEntity by);
-        void onActivate(GameEntity by);
-        void onDeactivate(GameEntity by);
+        void activate(bEntity by);
+        void deactivate(bEntity by);
+        void change(bEntity by);
+        void onActivate(bEntity by);
+        void onDeactivate(bEntity by);
     }
 
-    public class AreaTrigger : GameEntity
+    public class AreaTrigger : bEntity
     {
         public int width, height;
         public int targetId = -1;
@@ -49,7 +49,7 @@ namespace kom.Game.Puzzle
             {
                 if (targetId > 0)
                 {
-                    GameEntity e = world.find(targetId);
+                    bEntity e = world.find(targetId);
                     if (e is IActivable)
                         target = e as IActivable;
                     else return;
@@ -63,7 +63,7 @@ namespace kom.Game.Puzzle
         }
     }
 
-    public class ActivableDisplay : GameEntity, IActivable
+    public class ActivableDisplay : bEntity, IActivable
     {
         public bool active;
         public string text;
@@ -90,19 +90,19 @@ namespace kom.Game.Puzzle
             return active;
         }
 
-        public void activate(GameEntity e)
+        public void activate(bEntity e)
         {
             active = true;
             onActivate(e);
         }
 
-        public void deactivate(GameEntity e)
+        public void deactivate(bEntity e)
         {
             active = false;
             onDeactivate(e);
         }
 
-        public void change(GameEntity e)
+        public void change(bEntity e)
         {
             active = !active;
             if (active)
@@ -111,11 +111,11 @@ namespace kom.Game.Puzzle
                 onDeactivate(e);
         }
 
-        public void onActivate(GameEntity e)
+        public void onActivate(bEntity e)
         {
         }
 
-        public void onDeactivate(GameEntity e)
+        public void onDeactivate(bEntity e)
         {
         }
     }
